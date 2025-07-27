@@ -48,9 +48,19 @@ npm install
 
 ## ⚙️ Configuration
 
-### For Global Installation (Method 1)
-Add to your MCP client configuration:
+### With NPX
+```json
+{
+  "mcpServers": {
+    "youtube-summarizer": {
+      "command": "npx",
+      "args": ["-y", "@ryanmarc/youtube-summarizer-mcp-server"]
+    }
+  }
+}
+```
 
+### For Global Installation (Method 1)
 ```json
 {
   "mcpServers": {
