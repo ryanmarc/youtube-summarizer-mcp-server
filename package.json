@@ -1,0 +1,72 @@
+{
+  "name": "@ryanmarc/youtube-summarizer-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for summarizing YouTube videos and creating outlines",
+  "main": "index.js",
+  "bin": {
+    "youtube-summarizer-mcp-server": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --inspect index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "postinstall": "chmod +x index.js",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "youtube-caption-extractor": "^1.8.2"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.0.5",
+    "jest": "^30.0.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js",
+      "**/tests/**/*.spec.js"
+    ],
+    "collectCoverageFrom": [
+      "index.js",
+      "!node_modules/**",
+      "!tests/**",
+      "!coverage/**"
+    ],
+    "coverageReporters": ["text", "lcov", "html"],
+    "verbose": true
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "youtube",
+    "summarizer",
+    "claude",
+    "ai",
+    "video",
+    "transcript",
+    "captions"
+  ],
+  "author": "Ryan Edgell",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanmarc/youtube-summarizer-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ryanmarc/youtube-summarizer-mcp-server/issues"
+  },
+  "homepage": "https://github.com/ryanmarc/youtube-summarizer-mcp-server#readme",
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

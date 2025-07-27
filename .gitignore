@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+.npm
+.npmrc
+*.tgz
+
+# Coverage reports
+coverage/
+
+# Test results
+junit.xml
+
+# Environment variables
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+logs/
+*.log
