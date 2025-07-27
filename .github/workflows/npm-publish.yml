@@ -1,36 +1,96 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
-name: Node.js Package
+name: Publish to NPM
 
 on:
   release:
     types: [published]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm test
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Cache dependencies
+        uses: actions/cache@v3
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests
+        run: npm test
+        
+      - name: Extract and validate version
+        id: version
+        run: |
+          # Extract version from release tag (remove 'v' prefix if present)
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Setting package version to: $VERSION"
+          
+          # Validate version format (basic semver check)
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Version must follow semver format (e.g., 1.2.3 or 1.2.3-beta.1)"
+            exit 1
+          fi
+          
+      - name: Update package version
+        run: npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+        
+      - name: Verify package can be packed
+        run: |
+          npm pack --dry-run
+          echo "✅ Package validation successful"
+          
+      - name: Check if version already exists
+        run: |
+          if npm view youtube-summarizer-mcp-server@${{ steps.version.outputs.version }} version 2>/dev/null; then
+            echo "❌ Version ${{ steps.version.outputs.version }} already exists on NPM"
+            exit 1
+          else
+            echo "✅ Version ${{ steps.version.outputs.version }} is available"
+          fi
+          
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Verify publication
+        run: |
+          # Wait a moment for NPM to process the package
+          sleep 10
+          
+          # Verify the package was published successfully
+          if npm view youtube-summarizer-mcp-server@${{ steps.version.outputs.version }} version; then
+            echo "✅ Successfully verified publication"
+          else
+            echo "❌ Failed to verify publication"
+            exit 1
+          fi
+          
+      - name: Create publish summary
+        run: |
+          echo "## 🎉 Package Published Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** youtube-summarizer-mcp-server@${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**NPM URL:** https://www.npmjs.com/package/youtube-summarizer-mcp-server" >> $GITHUB_STEP_SUMMARY
+          echo "**Install Command:** \`npm install -g youtube-summarizer-mcp-server\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps:" >> $GITHUB_STEP_SUMMARY
+          echo "- Update documentation with new version" >> $GITHUB_STEP_SUMMARY
+          echo "- Announce the release to users" >> $GITHUB_STEP_SUMMARY
