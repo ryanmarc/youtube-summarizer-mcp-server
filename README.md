@@ -5,8 +5,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/node/v/@ryanmarc/youtube-summarizer-mcp-server.svg)](https://nodejs.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ryanmarc/youtube-summarizer-mcp-server/pulls)
-<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/ryanmarc/youtube-summarizer-mcp-server)](https://codecov.io/gh/ryanmarc/youtube-summarizer-mcp-server) -->
-<!-- [![Build Status](https://img.shields.io/github/actions/workflow/status/ryanmarc/youtube-summarizer-mcp-server/test.yml?branch=main)](https://github.com/ryanmarc/youtube-summarizer-mcp-server/actions) -->
 
 An MCP (Model Context Protocol) server that allows allows access to YouTube video transcripts for summarization and analysis. Perfect for creating summaries, outlines, and extracting key insights from video content.
 
