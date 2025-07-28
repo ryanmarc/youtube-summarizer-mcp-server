@@ -1,6 +1,6 @@
 # YouTube Video Summarizer MCP Server
 
-[![npm version](https://badge.fury.io/js/@ryanmarc%2Fyoutube-summarizer-mcp-server.svg)](https://badge.fury.io/js/@ryanmarc%2Fyoutube-summarizer-mcp-server)
+[![NPM Version](https://img.shields.io/npm/v/%40ryanmarc%2Fyoutube-summarizer-mcp-server)](https://www.npmjs.com/package/@ryanmarc/youtube-summarizer-mcp-server)
 [![npm downloads](https://img.shields.io/npm/dm/@ryanmarc/youtube-summarizer-mcp-server.svg)](https://www.npmjs.com/package/@ryanmarc/youtube-summarizer-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/node/v/@ryanmarc/youtube-summarizer-mcp-server.svg)](https://nodejs.org/)
