@@ -40,7 +40,7 @@ describe('Server Integration', () => {
       expect(Server).toHaveBeenCalledWith(
         {
           name: 'youtube-summarizer-server',
-          version: '0.1.0'
+          version: '0.1.1'
         },
         {
           capabilities: {
